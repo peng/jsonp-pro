@@ -21,4 +21,4 @@ function randNum() {
   return oT + randStr;
 }
 
-export default { typeCheck, randNum };
+export { typeCheck, randNum };
