@@ -2,7 +2,7 @@
 
 > jsonp methods
 
-# This repository is not finished.
+# This repository is not finished. Please wait thank you!
 
 <!-- ## Status
 
