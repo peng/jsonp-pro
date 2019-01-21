@@ -2,7 +2,7 @@
 
 > jsonp methods
 
-# This repository is not finished. Please wait thank you!
+# This repository is not finished.
 
 <!-- ## Status
 
@@ -36,4 +36,6 @@ MIT &copy; peng
  timeout:number, ms set timeout time
  customUrl:Boolean, custom url , support not standard url support , if true data is invalid,default false
 }
+/^(revert: )?(feat|opti|fix|docs|style|refactor|perf|test|workflow|build|ci|chore|types|wip)(\(.+\))?: .{1,50}/
+
 ``` -->
