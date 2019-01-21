@@ -2,7 +2,9 @@
 
 > jsonp methods
 
-## Status
+# This repository is not finished.
+
+<!-- ## Status
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -34,4 +36,4 @@ MIT &copy; peng
  timeout:number, ms set timeout time
  customUrl:Boolean, custom url , support not standard url support , if true data is invalid,default false
 }
-```
+``` -->
