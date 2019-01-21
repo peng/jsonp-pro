@@ -12,12 +12,24 @@ export default function(url, options) {
    * @param {string=} options.callbackName callback value string.
    * @param {boolean} options.noCallback no callback key and value. If true no these params. Default false have these params
    * @param {string=} options.charset charset value set, Default not set any.
-   * @param {number=} options.timeoutTime timeout time set. Unit ms. Default not set any timeout
+   * @param {number=} options.timeoutTime timeout time set. Unit ms. Default 60000
    * @param {Function=} options.timeout timeout callback. When timeout run this function.
+   * When you only set timeoutTime and not set timeout. Timeout methods is useless.
    */
 
-  const {
-    data,
+  // const {
+  //   data,
+  //   success,
+  //   loaded,
+  //   callback,
+  //   callbackName,
+  //   noCallback,
+  //   charset,
+  //   timeoutTime,
+  //   timeout
+  // } = options;
+
+  let data,
     success,
     loaded,
     callback,
@@ -25,8 +37,7 @@ export default function(url, options) {
     noCallback,
     charset,
     timeoutTime,
-    timeout
-  } = options;
+    timeout;
 
   const oHead = document.querySelector('head'),
     script = document.createElement('script');
@@ -34,28 +45,29 @@ export default function(url, options) {
   let timer;
 
   if (!url) {
-    throw new Error('No url ! Url is necessary !');
+    throw new ReferenceError('No url ! Url is necessary !');
   }
 
   if (!typeCheck(url, 'String')) {
-    throw new Error('Url must be string !');
+    throw new TypeError('Url must be string !');
   }
 
   if (!typeCheck(options, 'Object')) {
-    throw new Error('options must be Object');
+    throw new TypeError('options must be Object and options is necessary !');
   }
 
-  if (data) {
+  if (options.data) {
+    data = options.data;
     if (typeCheck(data, 'Object')) {
       let dataStr = '';
       for (item in data) {
-        dataStr += `${item}=${dataStr[item]}&`;
+        dataStr += `${item}=${data[item]}&`;
       }
       url.indexOf('?') == -1 ? (url += `?${dataStr}`) : (url += `&${dataStr}`);
     } else if (typeCheck(data, 'String')) {
       url.indexOf('?') == -1 ? (url += `?${data}&`) : (url += `&${data}&`);
     } else {
-      throw new Error('data must be object or string !');
+      throw new TypeError('data must be object or string !');
     }
   }
 
@@ -64,81 +76,91 @@ export default function(url, options) {
     loaded();
   }
 
-  if (loaded) {
+  if (options.loaded) {
+    loaded = options.loaded;
     if (typeCheck(loaded, 'Function')) {
       script.addEventListener('load', loadLis);
     } else {
-      throw new Error('param loaded must be function !');
+      throw new TypeError('param loaded must be function !');
     }
   }
 
-  if (charset) {
+  if (options.charset) {
+    charset = options.charset;
     if (typeCheck(charset, 'String')) {
       script.charset = charset;
     } else {
-      throw new Error('param charset must be string !');
+      throw new TypeError('param charset must be string !');
     }
   }
 
-  if (callback) {
+  if (options.callback) {
+    callback = options.callback;
     if (!typeCheck(callback, 'String')) {
-      throw new Error('param callback must be string !');
+      throw new TypeError('param callback must be string !');
     }
   } else {
     callback = 'callback';
   }
 
-  if (callbackName) {
+  if (options.callbackName) {
+    callbackName = options.callbackName;
     if (!typeCheck(callbackName, 'String')) {
-      throw new Error('param callbackName must be string !');
+      throw new TypeError('param callbackName must be string !');
     }
   } else {
     callbackName = `callback_${randNum()}`;
   }
 
-  if (!noCallback && success) {
+  function outTime() {
+    if (script.parentNode) script.parentNode.removeChild(script);
+    // window[callbackName] && delete window[callbackName];
+    window.hasOwnProperty(callbackName) && delete window[callbackName];
+    clearTimeout(timer);
+    if (timeout) {
+      if (typeCheck(timeout, 'Function')) {
+        timeout();
+      } else {
+        throw new TypeError('param timeout must be function !');
+      }
+    }
+  }
+
+  if (options.timeoutTime) {
+    timeoutTime = options.timeoutTime;
+    if (typeCheck(timeoutTime, 'Number')) {
+      timer = setTimeout(outTime, timeoutTime);
+    } else {
+      throw new TypeError('param timeoutTime must be number !');
+    }
+  }
+
+  if (options.noCallback) {
+    noCallback = options.noCallback;
+    console.log(noCallback);
+    if (typeCheck(noCallback, 'Boolean')) {
+      url = url.slice(0, -2);
+      console.log(url);
+    } else {
+      throw new TypeError('param noCallback must be boolean !');
+    }
+  } else {
+    url += `${callback}=${callbackName}`;
+  }
+
+  if (!noCallback && options.success) {
+    success = options.success;
     if (typeCheck(success, 'Function')) {
       window[callbackName] = data => {
         success(data);
         oHead.removeChild(script);
       };
     } else {
-      throw new Error('param success must be function !');
+      throw new TypeError('param success must be function !');
     }
-  }
-
-  function outTime() {
-    if (script.parentNode) script.parentNode.removeChild(script);
-    window[callbackName] && delete window[callbackName];
-    clearTimeout(timer);
-    if (timeout) {
-      if (typeCheck(timeout, 'Function')) {
-        timeout();
-      } else {
-        throw new Error('param timeout must be function !');
-      }
-    }
-  }
-
-  if (timeoutTime) {
-    if (typeCheck(timeoutTime, 'Number')) {
-      timer = setTimeout(outTime, timeoutTime);
-    } else {
-      throw new Error('param timeoutTime must be number !');
-    }
-  }
-
-  if (noCallback) {
-    if (typeCheck(noCallback, 'Boolean')) {
-      url = url.slice(0, -2);
-    } else {
-      throw new Error('param noCallback must be boolean !');
-    }
-  } else {
-    url += `${callback}=${callbackName}`;
   }
   console.log(url);
 
-  script.url = url;
+  script.src = url;
   oHead.appendChild(script);
 }
