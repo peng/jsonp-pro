@@ -1,15 +1,22 @@
 {
   "name": "jsonp-pro",
-  "version": "0.0.0",
-  "description": "jsonp methods",
+  "version": "0.0.1",
+  "description": "ajax jsonp methods",
+  "main": "./src/index.js",
   "repository": {
-    "url": "peng/jsonp-pro",
+    "url": "https://github.com/peng/jsonp-pro.git",
     "type": "git"
   },
   "author": "peng <414326615@qq.com> (github.com/peng)",
   "license": "MIT",
-  "files": [],
-  "keywords": [],
+  "files": [
+    "src",
+    "dist"
+  ],
+  "keywords": [
+    "ajax",
+    "jsonp"
+  ],
   "scripts": {
     "lint": "eslint src/** --fix",
     "test": "",
