@@ -137,7 +137,6 @@ export default function(url, options) {
       : (url += `&${dataStr}${callback}=${callbackName}`);
   }
   url = encodeURI(url);
-  console.log(url);
 
   function loadLis() {
     script.removeEventListener('load', loadLis);

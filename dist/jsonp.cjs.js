@@ -163,7 +163,6 @@ function index (url, options) {
   }
 
   url = encodeURI(url);
-  console.log(url);
 
   function loadLis() {
     script.removeEventListener('load', loadLis);
