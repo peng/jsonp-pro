@@ -66,32 +66,18 @@ define(function () { 'use strict';
         var data = options.data;
 
         if (typeCheck(data, 'Object')) {
-          // let dataStr = '';
           for (var item in data) {
             dataStr += "".concat(item, "=").concat(data[item], "&");
-          } // url.indexOf('?') == -1
-          //   ? (url += `?${dataStr}`)
-          //   : (url += `&${dataStr}`);
-
+          }
         } else if (typeCheck(data, 'String')) {
-          // url.indexOf('?') == -1 ? (url += `?${data}&`) : (url += `&${data}&`);
           dataStr = data + '&';
         } else {
           throw new TypeError('data must be object or string !');
         }
       },
       success: function success() {
-        // if (noCallback) return;
+        _success = options.success;
         if (!typeCheck(_success, 'Function')) throw new Error('param success must be function !');
-        _success = options.success; // function success() {
-        //   if (noCallback) return;
-        //   window[callbackName] = data => {
-        //     options.success(data);
-        //     oHead.removeChild(script);
-        //     clearTimeout(timer);
-        //   };
-        // }
-        // endMethods.push(success);
       },
       loaded: function loaded() {
         _loaded = options.loaded;
@@ -138,14 +124,13 @@ define(function () { 'use strict';
         }
       },
       timeout: function timeout() {
-        if (!typeCheck(timeout, 'Function')) {
+        if (!typeCheck(options.timeout, 'Function')) {
           throw new TypeError('param timeout must be function !');
         }
 
         function timeout() {
           function outTime() {
-            if (script.parentNode) script.parentNode.removeChild(script); // window[callbackName] && delete window[callbackName];
-
+            if (script.parentNode) script.parentNode.removeChild(script);
             window.hasOwnProperty(_callbackName) && delete window[_callbackName];
             clearTimeout(timer);
             options.timeout();
@@ -164,19 +149,21 @@ define(function () { 'use strict';
 
     endMethods.forEach(function (item) {
       item();
-    }); // url += `${dataStr}`
+    }); // warn url include data
 
-    if (_noCallback) {
-      url += dataStr.slice(0, -2);
-      console.log(url);
-    } else {
+    if (_noCallback && dataStr != '') {
+      url.indexOf('?') == -1 ? url += "?".concat(dataStr.slice(0, -2)) : url += "&".concat(dataStr.slice(0, -2));
+    } else if (!_noCallback) {
       window[_callbackName] = function (data) {
         _success && _success(data);
         oHead.removeChild(script);
       };
 
-      url += "?".concat(dataStr).concat(_callback, "=").concat(_callbackName);
+      url.indexOf('?') == -1 ? url += "?".concat(dataStr).concat(_callback, "=").concat(_callbackName) : url += "&".concat(dataStr).concat(_callback, "=").concat(_callbackName);
     }
+
+    url = encodeURI(url);
+    console.log(url);
 
     function loadLis() {
       script.removeEventListener('load', loadLis);
