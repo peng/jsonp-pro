@@ -43,34 +43,19 @@ export default function(url, options) {
     data() {
       const data = options.data;
       if (typeCheck(data, 'Object')) {
-        // let dataStr = '';
         for (let item in data) {
           dataStr += `${item}=${data[item]}&`;
         }
-        // url.indexOf('?') == -1
-        //   ? (url += `?${dataStr}`)
-        //   : (url += `&${dataStr}`);
       } else if (typeCheck(data, 'String')) {
-        // url.indexOf('?') == -1 ? (url += `?${data}&`) : (url += `&${data}&`);
         dataStr = data + '&';
       } else {
         throw new TypeError('data must be object or string !');
       }
     },
     success() {
-      // if (noCallback) return;
+      success = options.success;
       if (!typeCheck(success, 'Function'))
         throw new Error('param success must be function !');
-      success = options.success;
-      // function success() {
-      //   if (noCallback) return;
-      //   window[callbackName] = data => {
-      //     options.success(data);
-      //     oHead.removeChild(script);
-      //     clearTimeout(timer);
-      //   };
-      // }
-      // endMethods.push(success);
     },
     loaded() {
       loaded = options.loaded;
@@ -111,13 +96,12 @@ export default function(url, options) {
       }
     },
     timeout() {
-      if (!typeCheck(timeout, 'Function')) {
+      if (!typeCheck(options.timeout, 'Function')) {
         throw new TypeError('param timeout must be function !');
       }
       function timeout() {
         function outTime() {
           if (script.parentNode) script.parentNode.removeChild(script);
-          // window[callbackName] && delete window[callbackName];
           window.hasOwnProperty(callbackName) && delete window[callbackName];
           clearTimeout(timer);
           options.timeout();
@@ -138,17 +122,22 @@ export default function(url, options) {
     item();
   });
 
-  // url += `${dataStr}`
-  if (noCallback) {
-    url += dataStr.slice(0, -2);
-    console.log(url);
-  } else {
+  // warn url include data
+  if (noCallback && dataStr != '') {
+    url.indexOf('?') == -1
+      ? (url += `?${dataStr.slice(0, -2)}`)
+      : (url += `&${dataStr.slice(0, -2)}`);
+  } else if (!noCallback) {
     window[callbackName] = data => {
       success && success(data);
       oHead.removeChild(script);
     };
-    url += `?${dataStr}${callback}=${callbackName}`;
+    url.indexOf('?') == -1
+      ? (url += `?${dataStr}${callback}=${callbackName}`)
+      : (url += `&${dataStr}${callback}=${callbackName}`);
   }
+  url = encodeURI(url);
+  console.log(url);
 
   function loadLis() {
     script.removeEventListener('load', loadLis);
