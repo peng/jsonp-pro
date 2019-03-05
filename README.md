@@ -110,7 +110,7 @@ jsonp(url,options);
 
 |     Name     |        Type         |   Default |      Description |
 | :----------: | :-----------------: | :------------: | :-----------: |
-|     data     | `String|Object` | `` | This data is data to send. Object format example: `{key1: value1 , key2: value2}` . String format example `"key1=value1&key2=value2"` |
+|     data     | `{(String|Object)}` | `` | This data is data to send. Object format example: ```{key1: value1 , key2: value2}``` . String format example ```"key1=value1&key2=value2"``` |
 |   success    |    `{Function}`     | `` | Get data success callback function. |
 |    loaded    |    `{Function}`     | `` | when data loaded callback function.   |
 |   callback   |     `{String}`      | `callback` | Custom callback key string.  |
