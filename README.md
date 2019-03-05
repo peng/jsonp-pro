@@ -110,7 +110,7 @@ jsonp(url,options);
 
 |     Name     |        Type         |   Default |      Description |
 | :----------: | :-----------------: | :------------: | :-----------: |
-|     data     | `{String|Object}` | `` |  |
+|     data     | {String|Object} | `` |  |
 |   success    |    `{Function}`     | `` | Get data success callback function. |
 |    loaded    |    `{Function}`     | `` | when data loaded callback function.   |
 |   callback   |     `{String}`      | `callback` | Custom callback key string.  |
