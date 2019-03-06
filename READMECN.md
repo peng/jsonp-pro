@@ -26,7 +26,6 @@ $ npm install jsonp-pro
 ```
 
 ## 例子
-
 ESM 例子
 
 ```
