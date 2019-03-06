@@ -25,9 +25,8 @@ $ npm install jsonp-pro
 <script src="dist/jsonp.iife.min.js"></script>
 ```
 
-## 例子
-ESM 例子
-
+## 例子  
+ESM 例子  
 ```
 import jsonp from 'jsonp-pro';
 
