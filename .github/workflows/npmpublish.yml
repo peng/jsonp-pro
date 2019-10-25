@@ -8,9 +8,10 @@ on:
 jobs:
   build:
     name: build files
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: peng/jsonp-pro@master
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
         with:
           node-version: 12
       - run: yarn install
@@ -19,9 +20,10 @@ jobs:
 
   publish-npm:
     needs: build
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: peng/jsonp-pro@master
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
