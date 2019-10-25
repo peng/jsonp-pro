@@ -1,6 +1,6 @@
 {
   "name": "jsonp-pro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ajax jsonp methods",
   "main": "./src/index.js",
   "repository": {
