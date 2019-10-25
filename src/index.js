@@ -1,22 +1,21 @@
 import { typeCheck, randNum } from './methods';
 
+/**
+ * Param info
+ * @param {string} url url path to get data, It support url include data.
+ * @param {Object=} options all options look down
+ * @param {(Object | string)=} options.data this data is data to send. If is Object, Object will become a string eg. "?key1=value1&key2=value2" . If is string, String will add to at the end of url string.
+ * @param {Function=} options.success get data success callback function.
+ * @param {Function=} options.loaded when data loaded callback function.
+ * @param {string=} options.callback custom callback key string , default 'callback'.
+ * @param {string=} options.callbackName callback value string.
+ * @param {boolean} options.noCallback no callback key and value. If true no these params. Default false have these params
+ * @param {string=} options.charset charset value set, Default not set any.
+ * @param {number=} options.timeoutTime timeout time set. Unit ms. Default 60000
+ * @param {Function=} options.timeout timeout callback. When timeout run this function.
+ * When you only set timeoutTime and not set timeout. Timeout methods is useless.
+ */
 export default function(url, options) {
-  /**
-   * Param info
-   * @param {string} url url path to get data, It support url include data.
-   * @param {Object=} options all options look down
-   * @param {(Object | string)=} options.data this data is data to send. If is Object, Object will become a string eg. "?key1=value1&key2=value2" . If is string, String will add to at the end of url string.
-   * @param {Function=} options.success get data success callback function.
-   * @param {Function=} options.loaded when data loaded callback function.
-   * @param {string=} options.callback custom callback key string , default 'callback'.
-   * @param {string=} options.callbackName callback value string.
-   * @param {boolean} options.noCallback no callback key and value. If true no these params. Default false have these params
-   * @param {string=} options.charset charset value set, Default not set any.
-   * @param {number=} options.timeoutTime timeout time set. Unit ms. Default 60000
-   * @param {Function=} options.timeout timeout callback. When timeout run this function.
-   * When you only set timeoutTime and not set timeout. Timeout methods is useless.
-   */
-
   const oHead = document.querySelector('head'),
     script = document.createElement('script');
 
@@ -55,7 +54,7 @@ export default function(url, options) {
     success() {
       success = options.success;
       if (!typeCheck(success, 'Function'))
-        throw new Error('param success must be function !');
+        throw new TypeError('param success must be function !');
     },
     loaded() {
       loaded = options.loaded;
@@ -101,7 +100,7 @@ export default function(url, options) {
       }
       function timeout() {
         function outTime() {
-          if (script.parentNode) script.parentNode.removeChild(script);
+          script.parentNode.removeChild(script);
           window.hasOwnProperty(callbackName) && delete window[callbackName];
           clearTimeout(timer);
           options.timeout();
@@ -125,12 +124,14 @@ export default function(url, options) {
   // warn url include data
   if (noCallback && dataStr != '') {
     url.indexOf('?') == -1
-      ? (url += `?${dataStr.slice(0, -2)}`)
-      : (url += `&${dataStr.slice(0, -2)}`);
-  } else if (!noCallback) {
+      ? (url += `?${dataStr.slice(0, -1)}`)
+      : (url += `&${dataStr.slice(0, -1)}`);
+  }
+  if (!noCallback) {
     window[callbackName] = data => {
       success && success(data);
       oHead.removeChild(script);
+      delete window[callbackName];
     };
     url.indexOf('?') == -1
       ? (url += `?${dataStr}${callback}=${callbackName}`)
