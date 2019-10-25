@@ -147,8 +147,7 @@ module.exports = {
     '**/?(*.)+(spec|test).[tj]s?(x)',
     path.resolve(__dirname, './') + '/**/?(*.)+(spec|test).[tj]s?(x)',
     path.resolve(__dirname, './') + '/**/__tests__/**/*.[jt]s?(x)',
-    path.resolve(__dirname, './test') + '/index.test.js',
-    path.resolve(__dirname, './test') + '/methods.test.js'
+    path.resolve(__dirname, './test') + '/*.js'
   ]
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
