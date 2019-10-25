@@ -33,6 +33,7 @@
     "@commitlint/read": "^7.1.2",
     "babel-jest": "^24.9.0",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-latest": "^6.24.1",
     "chalk": "^2.4.1",
     "commitizen": "^3.0.5",

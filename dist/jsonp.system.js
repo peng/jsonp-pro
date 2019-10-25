@@ -5,11 +5,14 @@ System.register('jsonp', [], function (exports, module) {
 
       exports('default', index);
 
+      /**
+       * object check method
+       *
+       * @param {*} item variable will be check
+       * @param {string} type target type. Type value is 'String'|'Number'|'Boolean'|'Undefined'|'Null'|'Object'|'Function'|'Array'|'Date'|'RegExp'
+       * @return {boolean} true mean pass, false not pass
+       */
       function typeCheck(item, type) {
-        /**
-         * @param {*} item variable will be check
-         * @param {string} type target type. Type value is 'String'|'Number'|'Boolean'|'Undefined'|'Null'|'Object'|'Function'|'Array'|'Date'|'RegExp'
-         */
         var itemType = Object.prototype.toString.call(item);
         var targetType = "[object ".concat(type, "]");
 
@@ -28,22 +31,23 @@ System.register('jsonp', [], function (exports, module) {
         return oT + randStr;
       }
 
+      /**
+       * Param info
+       * @param {string} url url path to get data, It support url include data.
+       * @param {Object=} options all options look down
+       * @param {(Object | string)=} options.data this data is data to send. If is Object, Object will become a string eg. "?key1=value1&key2=value2" . If is string, String will add to at the end of url string.
+       * @param {Function=} options.success get data success callback function.
+       * @param {Function=} options.loaded when data loaded callback function.
+       * @param {string=} options.callback custom callback key string , default 'callback'.
+       * @param {string=} options.callbackName callback value string.
+       * @param {boolean} options.noCallback no callback key and value. If true no these params. Default false have these params
+       * @param {string=} options.charset charset value set, Default not set any.
+       * @param {number=} options.timeoutTime timeout time set. Unit ms. Default 60000
+       * @param {Function=} options.timeout timeout callback. When timeout run this function.
+       * When you only set timeoutTime and not set timeout. Timeout methods is useless.
+       */
+
       function index (url, options) {
-        /**
-         * Param info
-         * @param {string} url url path to get data, It support url include data.
-         * @param {Object=} options all options look down
-         * @param {(Object | string)=} options.data this data is data to send. If is Object, Object will become a string eg. "?key1=value1&key2=value2" . If is string, String will add to at the end of url string.
-         * @param {Function=} options.success get data success callback function.
-         * @param {Function=} options.loaded when data loaded callback function.
-         * @param {string=} options.callback custom callback key string , default 'callback'.
-         * @param {string=} options.callbackName callback value string.
-         * @param {boolean} options.noCallback no callback key and value. If true no these params. Default false have these params
-         * @param {string=} options.charset charset value set, Default not set any.
-         * @param {number=} options.timeoutTime timeout time set. Unit ms. Default 60000
-         * @param {Function=} options.timeout timeout callback. When timeout run this function.
-         * When you only set timeoutTime and not set timeout. Timeout methods is useless.
-         */
         var oHead = document.querySelector('head'),
             script = document.createElement('script');
 
@@ -82,7 +86,7 @@ System.register('jsonp', [], function (exports, module) {
           },
           success: function success() {
             _success = options.success;
-            if (!typeCheck(_success, 'Function')) throw new Error('param success must be function !');
+            if (!typeCheck(_success, 'Function')) throw new TypeError('param success must be function !');
           },
           loaded: function loaded() {
             _loaded = options.loaded;
@@ -135,7 +139,7 @@ System.register('jsonp', [], function (exports, module) {
 
             function timeout() {
               function outTime() {
-                if (script.parentNode) script.parentNode.removeChild(script);
+                script.parentNode.removeChild(script);
                 window.hasOwnProperty(_callbackName) && delete window[_callbackName];
                 clearTimeout(timer);
                 options.timeout();
@@ -157,11 +161,14 @@ System.register('jsonp', [], function (exports, module) {
         }); // warn url include data
 
         if (_noCallback && dataStr != '') {
-          url.indexOf('?') == -1 ? url += "?".concat(dataStr.slice(0, -2)) : url += "&".concat(dataStr.slice(0, -2));
-        } else if (!_noCallback) {
+          url.indexOf('?') == -1 ? url += "?".concat(dataStr.slice(0, -1)) : url += "&".concat(dataStr.slice(0, -1));
+        }
+
+        if (!_noCallback) {
           window[_callbackName] = function (data) {
             _success && _success(data);
             oHead.removeChild(script);
+            delete window[_callbackName];
           };
 
           url.indexOf('?') == -1 ? url += "?".concat(dataStr).concat(_callback, "=").concat(_callbackName) : url += "&".concat(dataStr).concat(_callback, "=").concat(_callbackName);
