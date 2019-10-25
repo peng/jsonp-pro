@@ -1,9 +1,11 @@
+/**
+ * object check method
+ *
+ * @param {*} item variable will be check
+ * @param {string} type target type. Type value is 'String'|'Number'|'Boolean'|'Undefined'|'Null'|'Object'|'Function'|'Array'|'Date'|'RegExp'
+ * @return {boolean} true mean pass, false not pass
+ */
 function typeCheck(item, type) {
-  /**
-   * @param {*} item variable will be check
-   * @param {string} type target type. Type value is 'String'|'Number'|'Boolean'|'Undefined'|'Null'|'Object'|'Function'|'Array'|'Date'|'RegExp'
-   */
-
   const itemType = Object.prototype.toString.call(item);
   let targetType = `[object ${type}]`;
   if (itemType === targetType) {
