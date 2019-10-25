@@ -10,8 +10,7 @@ jobs:
     name: build files
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v0.0.2
-      - uses: actions/setup-node@v0.0.2
+      - uses: peng/jsonp-pro@master
         with:
           node-version: 12
       - run: yarn install
@@ -22,8 +21,7 @@ jobs:
     needs: build
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v0.0.2
-      - uses: actions/setup-node@v1
+      - uses: peng/jsonp-pro@master
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
