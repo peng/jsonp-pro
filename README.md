@@ -1,6 +1,9 @@
 # jsonp-pro
 
 > ajax jsonp methods
+<p align="center">
+  <a href="https://github.com/peng/jsonp-pro"><img alt="GitHub Actions status" src="https://github.com/peng/jsonp-pro/workflows/jsonp-pro%20Package/badge.svg"></a>
+</p>
 
 [中文文档](https://github.com/peng/jsonp-pro/blob/master/READMECN.md)
 
