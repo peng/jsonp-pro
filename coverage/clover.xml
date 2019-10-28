@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1571379175555" clover="3.2.0">
-  <project timestamp="1571379175555" name="All files">
+<coverage generated="1572254434156" clover="3.2.0">
+  <project timestamp="1572254434156" name="All files">
     <metrics statements="78" coveredstatements="78" conditionals="42" coveredconditionals="42" methods="17" coveredmethods="17" elements="137" coveredelements="137" complexity="0" loc="78" ncloc="78" packages="1" files="2" classes="2"/>
     <file name="index.js" path="/Users/zhangzhipeng/Desktop/Repository/GitHub/jsonp-pro/src/index.js">
       <metrics statements="69" coveredstatements="69" conditionals="40" coveredconditionals="40" methods="15" coveredmethods="15"/>

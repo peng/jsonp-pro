@@ -1,82 +1,3 @@
-/* 
-测试功能
-1. url  
-  1)类型检查，不传值和类型错误,不能为空字符窜  OK
-  2)不带参数  OK
-  3)带参数
-2. options.timeoutTime
-  1)类型检查    OK
-  2)功能        OK
-3. options.timeout
-  1)类型检查    OK
-  2)功能        OK
-4. options.charset
-  1)类型检查    OK
-  2)功能        OK
-5. options.data
-  1)类型检查    OK
-  2)功能       OK
-6. options.success  
-  1)类型检查    OK
-  2)功能        OK
-7. options.callback
-  1)类型检查    OK
-  2)功能       OK
-8. options.callbackName  
-  1)类型检查    OK
-  2)功能        OK
-9. options.noCallback
-  1)类型检查    OK
-  2)功能        OK
-*/
-
-/* const arr = [
-  {
-    url: 'http://product.auto.163.com/dealer/gfcitys.js',
-    options: {
-      charset: 'gbk',
-      timeoutTime: 5000,
-      timeout: function() {
-        console.log('超时了');
-      },
-      noCallback: true,
-      loaded() {
-        console.log('data_city');
-      }
-    }
-  },
-  {
-    url: 'http://ipservice.163.com/ipquery',
-    options: {
-      loaded() {
-        console.log(localAddress);
-      },
-      noCallback: true
-    }
-  },
-  {
-    url: 'http://dealers.auto.163.com/user/public/getCityIdByPosition.json',
-    options: {
-      data: 'city=海淀区&province=北京市',
-      success(data) {
-        console.log(data);
-      },
-      callback: 'callback',
-      callbackName: 'myposIs'
-    }
-  }
-];
-
-arr.forEach(item => {
-  jsonp(item.url, item.options);
-}); */
-
-/* 
-
-关于 function 相等的判断 ？？？
-
-*/
-
 import jsonp from '../src/index';
 
 test('json-pro all params test', done => {
@@ -163,12 +84,12 @@ test('json-pro all params test', done => {
       timeout = true;
     }
   };
-  jsonp('http://product.auto.163.com/dealer/gfcitys.js', options);
+  jsonp('https://auto.3g.163.com/', options);
 
   const htmlHead = global.oHead;
   const oScript = htmlHead.children[0];
   expect(oScript.src).toBe(
-    'http://product.auto.163.com/dealer/gfcitys.js?name=jsonp&test=test&fn=mycallback'
+    'https://auto.3g.163.com/?name=jsonp&test=test&fn=mycallback'
   );
   expect(oScript.charset).toBe('gbk');
 
@@ -180,23 +101,20 @@ test('json-pro all params test', done => {
 
   // test url have params
 
-  jsonp(
-    'http://product.auto.163.com/dealer/gfcitys.js?urlparam=urlparam',
-    options
-  );
+  jsonp('https://auto.3g.163.com/?urlparam=urlparam', options);
   expect(global.oHead.children[0].src).toBe(
-    'http://product.auto.163.com/dealer/gfcitys.js?urlparam=urlparam&name=jsonp&test=test&fn=mycallback'
+    'https://auto.3g.163.com/?urlparam=urlparam&name=jsonp&test=test&fn=mycallback'
   );
 
   // test data is string
 
-  jsonp('http://product.auto.163.com/dealer/gfcitys.js?urlparam=urlparam', {
+  jsonp('https://auto.3g.163.com/?urlparam=urlparam', {
     data: 'peng=peng',
     callbackName: 'mycallback',
     success(res) {}
   });
   expect(global.oHead.children[0].src).toBe(
-    'http://product.auto.163.com/dealer/gfcitys.js?urlparam=urlparam&peng=peng&callback=mycallback'
+    'https://auto.3g.163.com/?urlparam=urlparam&peng=peng&callback=mycallback'
   );
 
   // test no callback
@@ -208,19 +126,16 @@ test('json-pro all params test', done => {
     noCallback: true
   };
 
-  jsonp('http://product.auto.163.com/dealer/gfcitys.js', noCallbackOpt);
+  jsonp('https://auto.3g.163.com/', noCallbackOpt);
 
   expect(global.oHead.children[0].src).toBe(
-    'http://product.auto.163.com/dealer/gfcitys.js?name=jsonp&test=test'
+    'https://auto.3g.163.com/?name=jsonp&test=test'
   );
 
-  jsonp(
-    'http://product.auto.163.com/dealer/gfcitys.js?myarg=myarg',
-    noCallbackOpt
-  );
+  jsonp('https://auto.3g.163.com/?myarg=myarg', noCallbackOpt);
 
   expect(global.oHead.children[0].src).toBe(
-    'http://product.auto.163.com/dealer/gfcitys.js?myarg=myarg&name=jsonp&test=test'
+    'https://auto.3g.163.com/?myarg=myarg&name=jsonp&test=test'
   );
 
   // no url test
@@ -239,7 +154,7 @@ test('json-pro all params test', done => {
 
   // data type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       data: []
     });
   } catch (e) {
@@ -248,7 +163,7 @@ test('json-pro all params test', done => {
 
   // success type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       success: {}
     });
   } catch (e) {
@@ -257,7 +172,7 @@ test('json-pro all params test', done => {
 
   // loaded type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       loaded: {}
     });
   } catch (e) {
@@ -266,7 +181,7 @@ test('json-pro all params test', done => {
 
   // callback type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       callback: {}
     });
   } catch (e) {
@@ -275,7 +190,7 @@ test('json-pro all params test', done => {
 
   // callbackName type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       callbackName: {}
     });
   } catch (e) {
@@ -284,7 +199,7 @@ test('json-pro all params test', done => {
 
   // noCallback type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       noCallback: {}
     });
   } catch (e) {
@@ -293,7 +208,7 @@ test('json-pro all params test', done => {
 
   // charset type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       charset: {}
     });
   } catch (e) {
@@ -302,7 +217,7 @@ test('json-pro all params test', done => {
 
   // timeoutTime type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       timeoutTime: {}
     });
   } catch (e) {
@@ -311,7 +226,7 @@ test('json-pro all params test', done => {
 
   // timeout type error test
   try {
-    jsonp('http://product.auto.163.com/dealer/gfcitys.js', {
+    jsonp('https://auto.3g.163.com/', {
       timeout: {}
     });
   } catch (e) {
@@ -319,7 +234,7 @@ test('json-pro all params test', done => {
   }
 
   // test timeout
-  jsonp('http://product.auto.163.com/dealer/gfcitys.js', options);
+  jsonp('https://auto.3g.163.com/', options);
 
   setTimeout(() => {
     expect(timeout).toBeTruthy();
