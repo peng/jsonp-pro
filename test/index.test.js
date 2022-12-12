@@ -64,7 +64,10 @@ test('json-pro all params test', done => {
     }
   });
 
-  let runLoad, resData, timeout;
+  let runLoad,
+    resData,
+    timeout,
+    err = undefined;
   const options = {
     data: {
       name: 'jsonp',
@@ -72,6 +75,9 @@ test('json-pro all params test', done => {
     },
     success: res => {
       resData = res;
+    },
+    error: e => {
+      err = e;
     },
     loaded: () => {
       runLoad = true;
@@ -98,6 +104,7 @@ test('json-pro all params test', done => {
 
   expect(runLoad).toBeTruthy();
   expect(resData).toBe('success');
+  expect(err).toBe(undefined);
 
   // test url have params
 
@@ -168,6 +175,16 @@ test('json-pro all params test', done => {
     });
   } catch (e) {
     expect(e.toString()).toBe('TypeError: param success must be function !');
+  }
+
+  // error callback function type error test
+  try {
+    jsonp('https://auto.3g.163.com/', {
+      success: () => {},
+      error: {}
+    });
+  } catch (e) {
+    expect(e.toString()).toBe('TypeError: param error must be function !');
   }
 
   // loaded type error test
