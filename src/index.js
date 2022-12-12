@@ -150,7 +150,7 @@ export default function(url, options) {
     script.removeEventListener('load', loadLis);
     loaded && loaded();
     clearTimeout(timer);
-    // 应该添加移除标签方法
+    oHead.removeChild(script);
   }
 
   script.addEventListener('load', loadLis);

@@ -32,6 +32,7 @@ define(function () { 'use strict';
    * @param {Object=} options all options look down
    * @param {(Object | string)=} options.data this data is data to send. If is Object, Object will become a string eg. "?key1=value1&key2=value2" . If is string, String will add to at the end of url string.
    * @param {Function=} options.success get data success callback function.
+   * @param {Function=} options.error get data error callback function.
    * @param {Function=} options.loaded when data loaded callback function.
    * @param {string=} options.callback custom callback key string , default 'callback'.
    * @param {string=} options.callbackName callback value string.
@@ -82,6 +83,13 @@ define(function () { 'use strict';
       success: function success() {
         _success = options.success;
         if (!typeCheck(_success, 'Function')) throw new TypeError('param success must be function !');
+      },
+      error: function error() {
+        if (!typeCheck(options.error, 'Function')) {
+          throw new TypeError('param error must be function !');
+        }
+
+        script.addEventListener('error', options.error);
       },
       loaded: function loaded() {
         _loaded = options.loaded;
@@ -175,6 +183,7 @@ define(function () { 'use strict';
       script.removeEventListener('load', loadLis);
       _loaded && _loaded();
       clearTimeout(timer);
+      oHead.removeChild(script);
     }
 
     script.addEventListener('load', loadLis);
