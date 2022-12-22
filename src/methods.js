@@ -5,7 +5,7 @@
  * @param {string} type target type. Type value is 'String'|'Number'|'Boolean'|'Undefined'|'Null'|'Object'|'Function'|'Array'|'Date'|'RegExp'
  * @return {boolean} true mean pass, false not pass
  */
-function typeCheck(item, type) {
+export function typeCheck(item, type) {
   const itemType = Object.prototype.toString.call(item);
   let targetType = `[object ${type}]`;
   if (itemType === targetType) {
@@ -15,7 +15,7 @@ function typeCheck(item, type) {
   }
 }
 
-function randNum() {
+export function randNum() {
   // get random number
   const oT = new Date().getTime().toString();
   const num = Math.ceil(Math.random() * 10000000000);
@@ -23,4 +23,12 @@ function randNum() {
   return oT + randStr;
 }
 
-export { typeCheck, randNum };
+export function removeChild(parent, child) {
+  const { childNodes } = parent
+
+  for (let i = 0; i < childNodes.length; i++) {
+    if (childNodes[i] === child) {
+      parent.removeChild(child)
+    }
+  }
+}
