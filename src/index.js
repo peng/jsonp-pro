@@ -1,4 +1,4 @@
-import { typeCheck, randNum } from './methods';
+import { typeCheck, randNum, removeChild } from './methods';
 
 /**
  * Param info
@@ -107,7 +107,8 @@ export default function(url, options) {
       }
       function timeout() {
         function outTime() {
-          script.parentNode.removeChild(script);
+          // script.parentNode.removeChild(script);
+          removeChild(script.parentNode, script)
           window.hasOwnProperty(callbackName) && delete window[callbackName];
           clearTimeout(timer);
           options.timeout();
@@ -137,7 +138,8 @@ export default function(url, options) {
   if (!noCallback) {
     window[callbackName] = data => {
       success && success(data);
-      oHead.removeChild(script);
+      // oHead.removeChild(script);
+      removeChild(oHead, script);
       delete window[callbackName];
     };
     url.indexOf('?') == -1
@@ -150,7 +152,8 @@ export default function(url, options) {
     script.removeEventListener('load', loadLis);
     loaded && loaded();
     clearTimeout(timer);
-    oHead.removeChild(script);
+    // oHead.removeChild(script);
+    removeChild(oHead, script)
   }
 
   script.addEventListener('load', loadLis);

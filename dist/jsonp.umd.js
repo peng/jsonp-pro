@@ -21,13 +21,21 @@
       return false;
     }
   }
-
   function randNum() {
     // get random number
     var oT = new Date().getTime().toString();
     var num = Math.ceil(Math.random() * 10000000000);
     var randStr = num.toString();
     return oT + randStr;
+  }
+  function removeChild(parent, child) {
+    var childNodes = parent.childNodes;
+
+    for (var i = 0; i < childNodes.length; i++) {
+      if (childNodes[i] === child) {
+        parent.removeChild(child);
+      }
+    }
   }
 
   /**
@@ -146,7 +154,8 @@
 
         function timeout() {
           function outTime() {
-            script.parentNode.removeChild(script);
+            // script.parentNode.removeChild(script);
+            removeChild(script.parentNode, script);
             window.hasOwnProperty(_callbackName) && delete window[_callbackName];
             clearTimeout(timer);
             options.timeout();
@@ -173,8 +182,9 @@
 
     if (!_noCallback) {
       window[_callbackName] = function (data) {
-        _success && _success(data);
-        oHead.removeChild(script);
+        _success && _success(data); // oHead.removeChild(script);
+
+        removeChild(oHead, script);
         delete window[_callbackName];
       };
 
@@ -186,8 +196,9 @@
     function loadLis() {
       script.removeEventListener('load', loadLis);
       _loaded && _loaded();
-      clearTimeout(timer);
-      oHead.removeChild(script);
+      clearTimeout(timer); // oHead.removeChild(script);
+
+      removeChild(oHead, script);
     }
 
     script.addEventListener('load', loadLis);
