@@ -39,4 +39,34 @@ format.forEach(item => {
   configs.push(proConfig);
 });
 
+configs.push({
+  input: './src/index.js',
+  output: {
+    name: 'jsonp',
+    file: `./dist/jsonp.esm.mjs`,
+    format: 'esm'
+  },
+  plugins: [
+    resolve(),
+    babel({
+      exclude: 'node_modules/**'
+    })
+  ]
+});
+configs.push({
+  input: './src/index.js',
+  output: {
+    name: 'jsonp',
+    file: `./dist/jsonp.esm.min.mjs`,
+    format: 'esm'
+  },
+  plugins: [
+    resolve(),
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    terser()
+  ]
+});
+
 export default configs;
