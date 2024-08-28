@@ -108,7 +108,7 @@ export default function(url, options) {
       function timeout() {
         function outTime() {
           // script.parentNode.removeChild(script);
-          removeChild(script.parentNode, script)
+          removeChild(script.parentNode, script);
           window.hasOwnProperty(callbackName) && delete window[callbackName];
           clearTimeout(timer);
           options.timeout();
@@ -153,7 +153,7 @@ export default function(url, options) {
     loaded && loaded();
     clearTimeout(timer);
     // oHead.removeChild(script);
-    removeChild(oHead, script)
+    removeChild(oHead, script);
   }
 
   script.addEventListener('load', loadLis);

@@ -24,11 +24,11 @@ export function randNum() {
 }
 
 export function removeChild(parent, child) {
-  const { childNodes } = parent
+  const { childNodes } = parent;
 
   for (let i = 0; i < childNodes.length; i++) {
     if (childNodes[i] === child) {
-      parent.removeChild(child)
+      parent.removeChild(child);
     }
   }
 }
