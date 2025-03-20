@@ -2,8 +2,8 @@
   "name": "jsonp-pro",
   "version": "1.1.2",
   "description": "ajax jsonp methods",
-  "main": "./src/jsonp.cjs.js",
-  "module": "./dist/jsonp.esm.js",
+  "main": "./dist/jsonp.cjs.min.js",
+  "module": "./dist/jsonp.esm.min.js",
   "browser": "./dist/jsonp.umd.min.js",
   "repository": {
     "url": "https://github.com/peng/jsonp-pro.git",
