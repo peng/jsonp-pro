@@ -25,6 +25,7 @@ test('json-pro all params test', done => {
           dom.parentNode = seleDom;
         }
       };
+      seleDom.childNodes = seleDom.children;
       global.oHead = seleDom;
       return seleDom;
     }
